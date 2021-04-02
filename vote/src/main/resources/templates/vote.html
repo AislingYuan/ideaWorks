@@ -1,0 +1,56 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<HTML xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.w3.org/1999/xhtml">
+<HEAD>
+    <META content="IE=11.0000"
+          http-equiv="X-UA-Compatible">
+
+    <META http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <TITLE>参与投票</TITLE>
+    <LINK href="css/style.css" rel="stylesheet" type="text/css">
+    <META name="GENERATOR" content="MSHTML 11.00.10586.420">
+</HEAD>
+<BODY>
+<DIV class="wrap" id="header"><IMG src="images/logo.gif"></DIV>
+<DIV class="wrap" id="navbar">
+    <DIV class="profile">您好，<label th:text="${session.user.userName}"></label>
+        <SPAN class="return"><A th:href="@{/load.action}">返回列表</A></SPAN>
+        <SPAN class="addnew"><A href="/Subject-add.action">添加新投票</A></SPAN>
+        <SPAN class="modify"><A href="/Subject-modify.action">维护</A></SPAN>
+        <SPAN class="return"><A href="/User-exit.action">注销</A></SPAN></DIV>
+    <DIV class="search">
+        <FORM th:action="load.action" method="post">
+            <INPUT name="vsTitle" class="input-text" type="text">
+            <INPUT name="submit" class="input-button" type="submit" value=""/>
+        </FORM>
+    </DIV>
+</DIV>
+<DIV class="wrap" id="vote">
+    <H2>参与投票</H2>
+    <UL class="list">
+        <LI>
+            <H4 th:text="${vsTitle}"></H4>
+            <P class="info" th:text="'共有' + ${calOption} + '个选项，已有' +${calVote}+ '个投票。'"></P>
+            <FORM action="#" th:action="@{/vote.action}" method="post">
+                <INPUT name="vsId" type="hidden" th:value="${vsId}">
+<!--                <INPUT name="vote" type="hidden" th:value="${vote}">-->
+                <INPUT name="token" type="hidden" value="4UDEDKPAXYKC1PTLWA2OMZGQ925VSGDB">
+
+                <OL>
+                    <LI th:each="op,opState:${ops}">
+                        <INPUT name="options" th:type="${vsType}==1?'radio':'checkbox'" th:value="${op.vo_id}" th:text="${op.vo_option}">
+                    </LI>
+                </OL>
+                <P class="voteView">
+                    <INPUT type="image" src="images/button_vote.gif"/>
+                    <A th:href="@{'/Vote-view.action'(vsId=${vsId})}">
+                    <IMG src="images/button_view.gif"/>
+                    </A>
+                </P>
+            </FORM>
+        </LI>
+    </UL>
+</DIV>
+<DIV class="wrap" id="footer"> 北大青鸟 © 版权所有</DIV>
+</BODY>
+</HTML>

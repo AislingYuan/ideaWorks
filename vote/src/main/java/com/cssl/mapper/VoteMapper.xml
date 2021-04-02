@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cssl.mapper.VoteMapper">
+
+    <resultMap id="subject" type="voteSubject">
+        <id property="vs_id" column="vs_id"/>
+        <result property="vs_title" column="vs_title"/>
+        <result property="vs_type" column="vs_type"/>
+    </resultMap>
+    <resultMap id="option" type="voteOption">
+        <id property="vo_id" column="vo_id"/>
+        <result property="vs_id" column="vs_id"/>
+        <result property="vo_option" column="vo_option"/>
+        <result property="vo_order" column="vo_order"/>
+    </resultMap>
+    <select id="allVo" resultMap="subject" parameterType="String">
+        SELECT * FROM vote_subject
+        <trim prefix="where" prefixOverrides="and | or">
+            <if test="vsTitle!=null">
+                and vs_title like concat(concat('%',#{vsTitle}),'%')
+            </if>
+        </trim>
+    </select>
+    <select id="calOption" parameterType="int" resultType="int">
+        SELECT COUNT(1) FROM vote_option WHERE vs_id=#{vsId}
+    </select>
+    <select id="calVote" parameterType="int" resultType="int">
+        SELECT COUNT(1) FROM vote_item WHERE vs_id=#{vsId}
+    </select>
+    <select id="calOps" parameterType="int" resultType="int">
+        SELECT COUNT(1) FROM vote_item WHERE vs_id=#{vsId}
+        and vo_id=#{voId}
+    </select>
+
+    <select id="allOps" parameterType="int" resultMap="option">
+        select * from vote_option where vs_id=#{vsId}
+    </select>
+
+    <select id="findByVsId" parameterType="int" resultMap="subject">
+        select * from vote_subject where vs_id=#{vsId}
+    </select>
+
+    <select id="findByOp" parameterType="String" resultMap="option">
+        select * from vote_option where vo_option=#{vo_option}
+    </select>
+    <select id="canVote" resultType="Integer" >
+        select count(1) from vote_item where vs_id=#{vsId} and vu_user_id=#{userId}
+    </select>
+<!--    增加投票数-->
+    <insert id="addVote" parameterType="voteItem">
+        INSERT INTO vote_item(vi_id,vu_user_id,vs_id,vo_id)
+        VALUES(#{vi_id},#{vu_user_id},#{vs_id},#{vo_id});
+    </insert>
+
+    <insert id="addVo" parameterType="voteSubject">
+        insert into vote_subject(vs_title,vs_type)
+        values(#{vs_title},#{vs_type})
+    </insert>
+
+    <delete id="delVo" parameterType="int">
+        delete from vote_subject where vs_id=#{vs_id}
+    </delete>
+    <delete id="delOps" parameterType="int">
+        delete from vote_option where vo_id=#{vo_id}
+    </delete>
+    <delete id="delVotes" parameterType="int">
+        delete from vote_item where vs_id=#{vs_id}
+    </delete>
+    <delete id="delVotes2" parameterType="int">
+        delete from vote_item where vo_id=#{vo_id}
+    </delete>
+
+    <insert id="addOps" parameterType="voteOption">
+        insert into vote_option(vs_id,vo_option,vo_order)
+        values(#{vs_id},#{vo_option},#{vo_order})
+    </insert>
+
+    <select id="selectVsId" parameterType="String" resultType="int">
+        select vs_id from vote_subject where vs_title=#{vs_title}
+    </select>
+
+    <update id="updVote" parameterType="voteSubject">
+        update vote_subject set vs_title=#{vs_title},vs_type=#{vs_type}
+        where vs_id=#{vs_id}
+    </update>
+</mapper>

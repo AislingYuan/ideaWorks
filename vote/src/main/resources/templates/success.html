@@ -1,0 +1,43 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<HTML xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>success</title>
+    <link type="text/css" rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+
+
+<div id="header" class="wrap">
+    <img src="images/logo.gif" />
+</div>
+<div id="navbar" class="wrap">
+    <DIV class="profile">您好，<label th:text="${session.user.userName}"></label>
+        <SPAN class="return"><A th:href="@{/load.action}">返回列表</A></SPAN>
+        <SPAN class="addnew"><A href="/add.html">添加新投票</A></SPAN>
+        <SPAN class="modify"><A href="Subject-modify.action">维护</A></SPAN>
+        <SPAN class="return"><A href="User-exit.action">注销</A></SPAN>
+    </DIV>
+    <DIV class="search">
+        <FORM th:action="load.action" method="post">
+            <INPUT name="vsTitle" class="input-text" type="text">
+            <INPUT name="submit" class="input-button" type="submit" value=""/>
+        </FORM>
+    </DIV>
+</div>
+
+<div id="message" class="box">
+    <h2>提示信息</h2>
+    <div class="content">
+        <p>恭喜：操作成功！<br/><a th:href="@{/load.action}">返回查看投票列表</a></p>
+    </div>
+</div>
+<div id="footer" class="wrap">
+    北大青鸟 &copy; 版权所有
+</div>
+</body>
+</html>

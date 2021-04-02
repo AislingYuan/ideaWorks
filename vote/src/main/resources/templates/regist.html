@@ -1,0 +1,69 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<HTML xmlns="http://www.w3.org/1999/xhtml">
+<HEAD>
+    <META content="IE=11.0000" http-equiv="X-UA-Compatible">
+    <META http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <TITLE>注册</TITLE>
+    <LINK href="css/style.css" rel="stylesheet" type="text/css">
+    <META name="GENERATOR" content="MSHTML 11.00.10586.420">
+</HEAD>
+<BODY>
+<DIV class="wrap" id="header"><IMG src="images/logo.gif"></DIV>
+<DIV class="wrap" id="navbar">
+    <DIV class="search"><!--
+		<form method="get" action="index.html">
+			<input type="text" name="keywords" class="input-text" /><input type="submit" name="submit" class="input-button" value="" />
+		</form>
+	-->
+    </DIV>
+</DIV>
+<DIV class="box" id="register">
+    <H2>新用户注册</H2>
+    <DIV class="content">
+        <FORM onsubmit="return check()" action="User-register.action" method="post">
+            <DL>
+                <DT>用户名：</DT>
+                <DD><INPUT name="userName" class="input-text" id="userName" type="text"/></DD>
+                <DT>密码：</DT>
+                <DD><INPUT name="uPassword" class="input-text" id="password" type="password"/></DD>
+                <DT>确认密码：</DT>
+                <DD><INPUT name="re-uPassword" class="input-text" id="repass" type="password"/></DD>
+                <DT></DT>
+                <DD><INPUT name="submit" class="input-button" type="submit" value=""/></DD>
+            </DL>
+        </FORM>
+        <DIV class="error"></DIV>
+        <DIV class="error"></DIV>
+    </DIV>
+</DIV>
+<DIV class="wrap" id="footer">北大青鸟 © 版权所有</DIV>
+</BODY>
+<script src="js/jquery-1.12.4.js"></script>
+<script language="javascript">
+	$("#userName").blur(function(){
+	  $.ajax({
+          "type":"post",
+          "data":{userName:$("#userName").val()},
+          "url":"IsExist.action",
+          success:function(data){
+            console.log(data);
+            if(data>0){
+              alert("用户名已存在");
+              $("#userName").val("");
+            }
+          },
+          error:function(){
+            alert("error");
+          }
+        });
+	});
+	function check(){
+	  if($("#repass").val()!=$("#password").val()){
+	    alert("密码不一致，请重新输入！");
+	    $("#repass").val("");
+	    return false;
+	  }
+	}
+    </script>
+</HTML>
