@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>花卉管理系统首页</title>
+    <style>
+        .odd{
+            background-color:orange;
+        }
+        .center{
+            text-align:center;
+        }
+    </style>
+</head>
+<!--static下页面可以直接访问，templates下页面需要通过Controller中方法访问-->
+<body>
+<form id="form" method="post">
+<table id="tb" border="1" class="center">
+    <thead>
+        <tr class="odd">
+            <td colspan="6" >花卉信息列表</td>
+        </tr>
+        <tr>
+            <td colspan="6"><a href="add.html">增加花卉</a></td>
+        </tr>
+        <tr class="odd">
+            <td>花卉编号</td>
+            <td>花卉名称</td>
+            <td>别名</td>
+            <td>科属</td>
+            <td>价格（元/支）</td>
+            <td>原产地</td>
+        </tr>
+    </thead>
+    <tbody>
+        <tr th:each="flower,fState:${flowers}" th:class="${fState.even}?'odd'">
+            <td th:text="${flower.id}">1</td>
+            <td th:text="${flower.name}">1</td>
+            <td th:text="${flower.authorName}">1</td>
+            <td th:text="${flower.property}">1</td>
+            <td th:text="${flower.price}">1</td>
+            <td th:text="${flower.production}">1</td>
+        </tr>
+    </tbody>
+    <tfoot>
+        <tr>
+            <td colspan="6">
+                [<span th:text="${pageIndex}"></span>/<span th:text="${pages}"></span>]&emsp;
+                <a th:href="@{'/show.action'(pageIndex=1)}" th:text="首页"></a>&emsp;
+                <a th:href="@{'/show.action'(pageIndex=${pageIndex}-1)}" th:text="上一页"></a>&emsp;
+                <a th:href="@{'/show.action'(pageIndex=${pageIndex}+1)}" th:text="下一页"></a>&emsp;
+                <a th:href="@{'/show.action'(pageIndex=${pages})}" th:text="末页"></a>&emsp;
+            </td>
+        </tr>
+    </tfoot>
+</table>
+</form>
+</body>
+</html>

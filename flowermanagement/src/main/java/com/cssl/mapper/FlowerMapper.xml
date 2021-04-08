@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cssl.mapper.FlowerMapper">
+    <select id="showAll" resultType="flower">
+        select * from flower
+    </select>
+
+    <insert id="addFlower" parameterType="flower">
+        INSERT INTO flower(name,authorName,property,price,production)
+        VALUES(#{name},#{authorName},#{property},#{price},#{production});
+    </insert>
+</mapper>

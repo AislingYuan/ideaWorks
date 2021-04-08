@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>花卉管理系统首页</title>
+    <style>
+        .odd{
+            background-color:orange;
+        }
+        .c{
+            text-align:center;
+        }
+    </style>
+</head>
+<body>
+<form id="form" method="post">
+    <table id="tb" border="1" class="c">
+        <thead>
+        <tr class="odd">
+            <td colspan="6" >花卉信息列表</td>
+        </tr>
+        <tr>
+            <td colspan="6"><a>增加花卉</a></td>
+        </tr>
+        <tr>
+            <td>花卉编号</td>
+            <td>花卉名称</td>
+            <td>别名</td>
+            <td>科属</td>
+            <td>价格（元/支）</td>
+            <td>原产地</td>
+        </tr>
+        </thead>
+        <tbody>
+
+        </tbody>
+    </table>
+</form>
+</body>
+<script src="/js/jquery-1.12.4.js"></script>
+<script type="text/javascript">
+$(function(){
+    $.ajax({
+        "type":"post",
+        "url":"/index.action",
+        datatype:"json",
+        success:function(data){
+            console.log(data);
+            $("#tb tbody").empty("");
+            $(data).each(function(i,e){
+				var tr="<tr num="+i+"><td>"+e.id+
+				"</td><td>"+e.name+
+				"</td><td>"+e.authorName+
+				"</td><td>"+e.property+
+				"</td><td>"+e.price+
+				"</td><td>"+e.production+
+				"</td></tr>";
+				$("#tb tbody").append(tr);
+				if(i%2==0){
+					$("#tb tr[num="+i+"]").addClass("odd");
+				}
+				});
+        },
+        error:function(){
+            alert('error');
+        }
+    });
+});
+</script>
+</html>
